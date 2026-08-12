@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker App</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Add inside <head> -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8C5A41">
+
+</head>
+<body>
+
+  <!-- Pull-to-Refresh Indicator -->
+  <div id="ptr-indicator" class="ptr-indicator">
+    <i class="fa-solid fa-rotate"></i>
+  </div>
+
+  <main class="app-container" id="app-container">
+
+    <!-- SIGN UP SCREEN -->
+    <section id="screen-signup" class="screen">
+      <div class="auth-card">
+        <img src="auth-hero-signup.png" alt="Sign Up Illustration" class="auth-illustration">
+        <h2>Create Account</h2>
+        <form id="form-signup">
+          <div class="input-group">
+            <input type="text" id="signup-name" placeholder="Enter Full Name" required>
+          </div>
+          <div class="input-group">
+            <input type="email" id="signup-email" placeholder="Enter Email Address" required>
+          </div>
+          
+          <div class="input-group password-group">
+            <input type="password" id="signup-password" placeholder="Enter Password" required>
+            <i class="fa-regular fa-eye toggle-password" data-target="signup-password"></i>
+          </div>
+
+          <div class="input-group password-group">
+            <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+            <i class="fa-regular fa-eye toggle-password" data-target="signup-confirm-password"></i>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+        <p class="auth-switch">Already have an account? <a href="#" id="goto-login">Sign In</a></p>
+      </div>
+    </section>
+
+    <!-- SIGN IN SCREEN -->
+    <section id="screen-login" class="screen hidden">
+      <div class="auth-card">
+        <img src="auth-hero-signin.png" alt="Sign In Illustration" class="auth-illustration">
+        <h2>Welcome Back</h2>
+        <form id="form-login">
+          <div class="input-group">
+            <input type="email" id="login-email" placeholder="Enter Email" required>
+          </div>
+          
+          <div class="input-group password-group">
+            <input type="password" id="login-password" placeholder="Enter Password" required>
+            <i class="fa-regular fa-eye toggle-password" data-target="login-password"></i>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <p class="auth-switch">Don't have an account? <a href="#" id="goto-signup">Create One</a></p>
+        <p class="auth-switch"><a href="#" id="goto-forgot">Forgot Password?</a></p>
+      </div>
+    </section>
+
+    <!-- FORGOT PASSWORD SCREEN -->
+    <section id="screen-forgot" class="screen hidden">
+      <div class="auth-card">
+        <h2>Reset Password</h2>
+        <p class="verify-sub">Enter your registered email address to receive a password reset link.</p>
+        <form id="form-forgot">
+          <div class="input-group">
+            <input type="email" id="forgot-email" placeholder="Enter your email" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Reset Link</button>
+        </form>
+        <p class="auth-switch"><a href="#" id="back-to-login">Back to Sign In</a></p>
+      </div>
+    </section>
+
+    <!-- HOME DASHBOARD SCREEN -->
+    <section id="screen-home" class="screen hidden">
+      <header class="home-header">
+        <div class="user-info" id="btn-open-profile">
+          <img src="avatar-placeholder.png" alt="User Avatar" class="avatar">
+          <div>
+            <span class="welcome-text">Welcome back,</span>
+            <h3 id="display-username">User</h3>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <div class="currency-selector">
+            <select id="currency-select">
+              <option value="NGN">₦ NGN</option>
+              <option value="USD">$ USD</option>
+              <option value="EUR">€ EUR</option>
+              <option value="GBP">£ GBP</option>
+            </select>
+          </div>
+          <button id="btn-goto-create" class="btn-add"><i class="fa-solid fa-plus"></i> Add</button>
+          <button id="btn-logout" class="btn-icon" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
+      </header>
+
+      <div class="balance-card">
+        <span class="balance-label">Total Balance</span>
+        <h1 id="total-balance">₦0.00</h1>
+        <div class="balance-row">
+          <div class="balance-item income">
+            <span>Income</span>
+            <h4 id="total-income">+₦0.00</h4>
+          </div>
+          <div class="balance-divider"></div>
+          <div class="balance-item expense">
+            <span>Expense</span>
+            <h4 id="total-expense">-₦0.00</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="transactions-section">
+        <h3>Recent Transactions</h3>
+        <div id="transactions-list" class="transactions-list"></div>
+      </div>
+    </section>
+
+    <!-- CREATE / EDIT TRANSACTION SCREEN -->
+    <section id="screen-create" class="screen hidden">
+      <header class="create-header">
+        <button id="btn-back-home" class="btn-icon-plain"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3 id="create-screen-title">Add Transaction</h3>
+        <div></div>
+      </header>
+
+      <form id="form-create-transaction" class="create-body">
+        <div class="type-switcher">
+          <button type="button" class="type-btn active" data-type="expense">
+            <i class="fa-solid fa-circle-arrow-down"></i> Expense
+          </button>
+          <button type="button" class="type-btn" data-type="income">
+            <i class="fa-solid fa-circle-arrow-up"></i> Income
+          </button>
+        </div>
+
+        <div class="amount-input-wrapper">
+          <span class="currency-symbol" id="create-currency-symbol">₦</span>
+          <input type="number" step="0.01" id="tx-amount" placeholder="0.00" required>
+        </div>
+
+        <div class="input-group icon-input">
+          <i class="fa-regular fa-pen-to-square"></i>
+          <input type="text" id="tx-title" placeholder="Description (e.g., Groceries, Rent)" required>
+        </div>
+
+        <!-- Date & Time Picker -->
+        <div class="input-group icon-input">
+          <i class="fa-regular fa-calendar"></i>
+          <input type="datetime-local" id="tx-datetime" required>
+        </div>
+
+        <div class="category-section">
+          <label><i class="fa-solid fa-tag"></i> Category</label>
+          <div class="category-grid" id="category-grid">
+            <button type="button" class="cat-chip active" data-cat="Food"><i class="fa-solid fa-utensils"></i> Food</button>
+            <button type="button" class="cat-chip" data-cat="Shopping"><i class="fa-solid fa-cart-shopping"></i> Shopping</button>
+            <button type="button" class="cat-chip" data-cat="Transport"><i class="fa-solid fa-car"></i> Transport</button>
+            <button type="button" class="cat-chip" data-cat="Entertainment"><i class="fa-solid fa-film"></i> Entertainment</button>
+            <button type="button" class="cat-chip" data-cat="Bills"><i class="fa-solid fa-file-invoice-dollar"></i> Bills</button>
+            <button type="button" class="cat-chip" data-cat="Salary"><i class="fa-solid fa-money-bill-wave"></i> Salary</button>
+            <button type="button" class="cat-chip" data-cat="Others"><i class="fa-solid fa-ellipsis"></i> Others</button>
+          </div>
+        </div>
+
+        <!-- Full-Width Save Button at the Bottom -->
+        <button type="submit" id="btn-save-transaction" class="btn btn-primary btn-save-bottom">Save Transaction</button>
+      </form>
+    </section>
+
+    <!-- PROFILE MANAGEMENT SCREEN -->
+    <section id="screen-profile" class="screen hidden">
+      <header class="create-header">
+        <button id="btn-profile-back" class="btn-icon-plain"><i class="fa-solid fa-arrow-left"></i></button>
+        <h3>Account Settings</h3>
+        <div></div>
+      </header>
+
+      <div class="profile-body">
+        <form id="form-update-profile">
+          <h4>Update Profile Name</h4>
+          <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="profile-name" required>
+          </div>
+          <div class="input-group password-group">
+            <label>Confirm Your Password</label>
+            <input type="password" id="profile-name-password" placeholder="Enter password to confirm" required>
+            <i class="fa-regular fa-eye toggle-password" data-target="profile-name-password"></i>
+          </div>
+          <button type="submit" class="btn btn-primary">Update Name</button>
+        </form>
+
+        <hr>
+
+        <form id="form-update-email">
+          <h4>Update Email Address</h4>
+          <div class="input-group">
+            <label>New Email Address</label>
+            <input type="email" id="profile-email" required>
+          </div>
+          <div class="input-group password-group">
+            <label>Confirm Your Password</label>
+            <input type="password" id="profile-email-password" placeholder="Enter password to confirm" required>
+            <i class="fa-regular fa-eye toggle-password" data-target="profile-email-password"></i>
+          </div>
+          <button type="submit" class="btn btn-primary">Update Email</button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
