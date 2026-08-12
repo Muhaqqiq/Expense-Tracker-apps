@@ -179,7 +179,7 @@ document.getElementById('goto-signup').onclick = (e) => { e.preventDefault(); na
 document.getElementById('goto-forgot').onclick = (e) => { e.preventDefault(); navigateTo('forgot'); };
 document.getElementById('back-to-login').onclick = (e) => { e.preventDefault(); navigateTo('login'); };
 
-// PROFILE MANAGEMENT HANDLERS (With Password Confirmation)
+// PROFILE MANAGEMENT HANDLERS
 document.getElementById('btn-open-profile').onclick = () => {
   if (currentUser) {
     document.getElementById('profile-name').value = currentUser.displayName || '';
@@ -493,13 +493,12 @@ window.addEventListener('touchend', async () => {
   }
 });
 
-
-// Register Service Worker for PWA
+// REGISTER SERVICE WORKER FOR PWA INSTALLATION
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js')
+    navigator.serviceWorker.register('./service-worker.js', { scope: './' })
       .then((reg) => console.log('Service Worker registered successfully:', reg.scope))
-      .catch((err) => console.log('Service Worker registration failed:', err));
+      .catch((err) => console.error('Service Worker registration failed:', err));
   });
-                                                       }
+      }
   
