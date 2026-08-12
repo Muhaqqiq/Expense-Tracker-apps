@@ -1,0 +1,21 @@
+{
+  "short_name": "ExpenseTracker",
+  "name": "Expense Tracker App",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#F8F5F2",
+  "theme_color": "#8C5A41",
+  "display": "standalone",
+  "orientation": "portrait"
+}
