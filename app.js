@@ -501,4 +501,38 @@ if ('serviceWorker' in navigator) {
       .catch((err) => console.error('Service Worker registration failed:', err));
   });
       }
+
+// PWA Installation & Service Worker Handling
+let deferredPrompt;
+const installBanner = document.getElementById('pwa-install-banner');
+const installBtn = document.getElementById('btn-pwa-install');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (installBanner) installBanner.classList.remove('hidden');
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('User accepted PWA installation');
+      }
+      deferredPrompt = null;
+      installBanner.classList.add('hidden');
+    }
+  });
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+      .then((reg) => console.log('Service Worker registered:', reg.scope))
+      .catch((err) => console.error('Service Worker registration failed:', err));
+  });
+}
+
   
