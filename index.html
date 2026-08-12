@@ -14,11 +14,17 @@
   <meta name="apple-mobile-web-app-title" content="Expense Tracker">
   <link rel="apple-touch-icon" href="./logo.png">
 
-  <!-- External Stylesheets & Icons -->
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- External Stylesheets & Icons with CORS support -->
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+
+  <!-- PWA Installation Banner (Shows across all supported browsers) -->
+  <div id="pwa-install-banner" class="hidden" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; background: #8C5A41; color: white; padding: 12px 20px; border-radius: 30px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+    <span>Install Expense Tracker App</span>
+    <button id="btn-pwa-install" style="background: white; color: #8C5A41; border: none; padding: 6px 14px; border-radius: 20px; font-weight: bold; cursor: pointer;">Install</button>
+  </div>
 
   <!-- Pull To Refresh Indicator -->
   <div id="ptr-indicator" class="ptr-element">
@@ -125,9 +131,7 @@
 
     <div class="transactions-section">
       <h3>Recent Transactions</h3>
-      <div id="transactions-list" class="transactions-list">
-        <!-- Dynamic Transactions List -->
-      </div>
+      <div id="transactions-list" class="transactions-list"></div>
     </div>
 
     <button id="btn-goto-create" class="fab-btn"><i class="fa-solid fa-plus"></i></button>
@@ -222,8 +226,7 @@
     </div>
   </div>
 
-  <!-- Application Main Script -->
   <script type="module" src="app.js"></script>
 </body>
-  </html>
-  
+            </html>
+            
